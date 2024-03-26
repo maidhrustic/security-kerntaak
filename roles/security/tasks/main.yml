@@ -1,4 +1,8 @@
 ---
+- name: Import the update playbook
+  import_tasks: "update_playbook.yml"
+  tags: update
+  
 - name: Import banner configurations
   import_tasks: "banner.yml"
   tags: "banner"

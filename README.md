@@ -24,4 +24,5 @@ Or you can run the playbooks individually by using these tags:
 - banner <br>
 - lynis <br>
 - fail2ban <br>
+- update <br>
 <br>

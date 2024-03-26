@@ -1,0 +1,62 @@
+# Include the OS specific variables
+- name: Include specific OS variables
+  include_vars: "vars/{{ ansible_os_family }}.yml"
+
+# Outputs which system uses which variable file
+- name: Debug specific OS variables
+  debug:
+    var: "{{ ansible_os_family }}.yml"
+
+# Get the RHEL based distros release info
+- name: Get the release version (Redhat)
+  command: cat /etc/redhat-release
+  register: rhel_release_info
+  when: ansible_os_family == 'RedHat'
+
+# Outputs the RHEL based distro release info
+- debug:
+    var: rhel_release_info.stdout_lines
+  when: ansible_os_family == 'RedHat'
+
+# grep the description and codename from the /etc/lsb-release file
+- name: Get the release version (Debian)
+  shell: cat /etc/lsb-release | grep -E 'DISTRIB_DESCRIPTION|DISTRIB_CODENAME'
+  register: debian_releaseinfo
+  when: ansible_os_family == 'Debian'
+
+# Outputs the Debian based distro relase info
+- debug:
+    var: debian_releaseinfo.stdout_lines
+  when: ansible_os_family == 'Debian'
+
+# Update Debian based systems
+- name: Update the system (Debian)
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    upgrade: full
+  when: ansible_os_family == 'Debian'
+
+# Install packages for Debian based systems
+- name: Install useful tools (Debian)
+  apt:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ system_packages }}"
+  when: ansible_os_family == 'Debian'
+
+# Update RHEL based systems
+- name: Update the system (Redhat)
+  dnf:
+    name: '*'
+    update_cache: true
+    state: latest
+  when: ansible_os_family == 'RedHat'
+
+# Install packages for RHEL based systems
+- name: Install useful tools (Redhat)
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ system_packages }}"
+  when: ansible_os_family == 'RedHat'
