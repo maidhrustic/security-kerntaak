@@ -1,0 +1,42 @@
+---
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Check wether a package called neofetch is installed
+  debug:
+    msg: "{{ ansible_facts.packages['neofetch'] | length }} version(s) of neofetch are installed!"
+  when: "'neofetch' in ansible_facts.packages"
+
+- name: Install neofetch if it isnt found within ansible_facts.packages
+  apt:
+    name: 'neofetch'
+    state: latest
+  when: 
+    - "'neofetch' not in ansible_facts.packages"
+    - ansible_os_family == 'Debian'
+  
+- name: Install neofetch if it isnt found within ansible_facts.packages
+  dnf:
+    name: 'neofetch'
+    state: latest
+  when:
+    - "'neofetch' not in ansible_facts.packages"
+    - ansible_os_family == 'RedHat'
+
+- name: Add neofetch as a MOTD
+  copy:
+    dest: "/etc/profile.d/motd.sh"
+    content: | 
+      neofetch
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Copy the MOTD to the server
+  copy:
+    src: scripts/motd
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0755"

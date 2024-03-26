@@ -1,0 +1,7 @@
+- name: Copy the banner to the server
+  copy:
+    src: scripts/banner
+    dest: /etc/banner
+    group: root
+    owner: root
+    mode: "0755"

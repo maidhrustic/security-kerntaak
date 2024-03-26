@@ -1,0 +1,17 @@
+ansible_user: ansible
+ansible_password: "{{ user_password }}"
+homedir: "/home/{{ ansible_user }}"
+
+ssh:
+  ssh_configuration:
+    ssh_ansible_managed: true
+    AllowedUsers:
+      - "*@*"
+    ssh_port: 22
+    MaxAuthTries: 3
+    ssh_config_file: /etc/ssh/sshd_config
+    MaxSessions: 2
+
+security_fail2ban_enabled: true
+security_fail2ban_custom_configuration_template: "jail.local.j2"
+security_ssh_port: 22

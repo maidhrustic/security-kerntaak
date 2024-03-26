@@ -1,0 +1,7 @@
+- name: Tags for the linux server
+  hosts: linux
+  gather_facts: true
+  become: true
+  become_method: sudo
+  roles:
+    - {role: 'security', tags: ['all']}

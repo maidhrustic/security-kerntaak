@@ -1,0 +1,20 @@
+---
+- name: Import banner configurations
+  import_tasks: "banner.yml"
+  tags: "banner"
+
+- name: Import MOTD configurations
+  import_tasks: "motd.yml"
+  tags: "motd"
+
+- name: Import ssh configurations
+  import_tasks: "ssh.yml"
+  tags: ssh
+
+- name: Import fail2ban configurations
+  import_tasks: "fail2ban.yml"
+  tags: "fail2ban"
+
+- name: Import lynis task
+  import_tasks: "lynis.yml"
+  tags: lynis

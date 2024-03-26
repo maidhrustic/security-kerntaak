@@ -1,0 +1,7 @@
+---
+- name: Pull the lynis repository
+  git:
+    repo: "https://github.com/CISOfy/lynis.git"
+    dest: "{{ homedir }}/lynis"
+    single_branch: true
+    version: master
