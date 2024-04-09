@@ -1,0 +1,13 @@
+# Update RHEL based systems
+- name: Update the system (RedHat)
+  dnf:
+    name: '*'
+    update_cache: true
+    state: latest
+
+# Installs packages for RedHat based systems
+- name: Install useful tools (RedHat)
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ system_packages }}"

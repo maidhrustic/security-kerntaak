@@ -1,0 +1,13 @@
+# Update Debian based systems
+- name: Update the system (Debian)
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    upgrade: full
+
+# Install packages for debian based systems
+- name: Install useful tools (Debian)
+  apt:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ system_packages }}"
